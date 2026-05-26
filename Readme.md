@@ -72,7 +72,7 @@ pip install flask     # Serveur dashboard web
 ## Générer les données (1 million d'entiers aléatoires)
 
 ```bash
-python generate_data.py random 1000000
+python generate_data.py random 10000000
 ```
 
 ## Lancer le cluster complet
