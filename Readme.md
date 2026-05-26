@@ -2,6 +2,24 @@
 
 Système de tri distribué avec plusieurs workers, communication TCP, fusion optimisée et monitoring temps réel.
 
+---
+
+## Réalisé par
+
+- **BAHRI ILHAME**
+- **ZAAFA KHADIJA** 
+- **ALDIEBES GHANEM ISRAA**
+
+### Cadre du projet
+
+Ce projet a été réalisé dans le cadre du module **Système Distribué et Programmation Parallèle** du **Master Intelligence Artificielle**.
+
+
+Nous allons présenter ce projet à nos camarades de classe du **Master IA**.  
+Ils pourront suivre les instructions détaillées dans ce document.
+
+---
+
 # Fonctionnalités principales
 
 - Tri distribué sur plusieurs workers
@@ -29,9 +47,16 @@ distributed_sort/
 
 ---
 
-# 1. Installation
+## Instructions pour les étudiants
 
-Installer les dépendances :
+### 1. Cloner le projet
+
+```bash
+git clone <https://github.com/Bahriilhame/distributed_sort.git>
+cd distributed_sort
+```
+
+### 2. Installer les dépendances :
 
 ```bash
 pip install rich      # Affichage terminal amélioré (monitoring)
@@ -40,7 +65,7 @@ pip install psutil    # Métriques CPU/RAM des workers
 
 ---
 
-# 2. Comment lancer le projet
+# 3. Comment lancer le projet
 
 ## Générer les données (1 million d'entiers aléatoires)
 
@@ -56,7 +81,7 @@ python run_cluster.py
 
 ---
 
-# 3. Tester différents modes
+# 4. Tester différents modes
 
 ## Données presque triées (cas difficile)
 
@@ -87,7 +112,7 @@ python run_cluster.py
 
 ---
 
-# 4. Résultat attendu dans le terminal
+# 5. Résultat attendu dans le terminal
 
 ```text
 10:42:01  INFO    Vérification des workers...
