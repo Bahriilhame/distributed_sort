@@ -193,6 +193,6 @@ Exemple réel avec **10 000 000 d'éléments** sur **5 workers** :
 
 ### Vue générale du cluster en cours d'exécution
 
-![Dashboard Done](screenshots/dashboard_done.png)
+![Dashboard Done](screenshots/dashboard.png)
 
 ---
