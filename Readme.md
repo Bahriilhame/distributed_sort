@@ -7,13 +7,12 @@ Système de tri distribué avec plusieurs workers, communication TCP, fusion opt
 ## Réalisé par
 
 - **BAHRI ILHAME**
-- **ZAAFA KHADIJA** 
+- **ZAAFA KHADIJA**
 - **ALDIEBES GHANEM ISRAA**
 
 ### Cadre du projet
 
 Ce projet a été réalisé dans le cadre du module **Système Distribué et Programmation Parallèle** du **Master Intelligence Artificielle**.
-
 
 Nous allons présenter ce projet à nos camarades de classe du **Master IA**.  
 Ils pourront suivre les instructions détaillées dans ce document.
@@ -26,7 +25,8 @@ Ils pourront suivre les instructions détaillées dans ce document.
 - Communication réseau via sockets TCP
 - Partitionnement intelligent avec échantillonnage de pivots
 - Fusion finale optimisée (k-way merge avec min-heap)
-- Monitoring temps réel des performances
+- Monitoring temps réel des performances via dashboard web
+- Dashboard interactif (Server-Sent Events) avec visualisation live des phases et workers
 - Support de plusieurs types de datasets
 - Paramétrage facile du nombre de workers et de la taille des données
 
@@ -39,9 +39,10 @@ distributed_sort/
 ├── merger.py            # Fusion k-way avec heap min
 ├── network.py           # Couche de communication (sockets TCP)
 ├── sampler.py           # Échantillonnage des pivots (optimisation réseau)
-├── monitor.py           # Métriques temps réel
+├── monitor.py           # Métriques temps réel (terminal)
+├── dashboard.py         # Dashboard web temps réel (Flask + SSE)
 ├── generate_data.py     # Génère les données de test
-├── run_cluster.py       # Lance tout le cluster localement
+├── run_cluster.py       # Lance tout le cluster + dashboard automatiquement
 └── config.py            # Paramètres centralisés
 ```
 
@@ -52,15 +53,16 @@ distributed_sort/
 ### 1. Cloner le projet
 
 ```bash
-git clone <https://github.com/Bahriilhame/distributed_sort.git>
+git clone https://github.com/Bahriilhame/distributed_sort.git
 cd distributed_sort
 ```
 
-### 2. Installer les dépendances :
+### 2. Installer les dépendances
 
 ```bash
 pip install rich      # Affichage terminal amélioré (monitoring)
 pip install psutil    # Métriques CPU/RAM des workers
+pip install flask     # Serveur dashboard web
 ```
 
 ---
@@ -78,6 +80,16 @@ python generate_data.py random 1000000
 ```bash
 python run_cluster.py
 ```
+
+Le script lance automatiquement :
+1. Le serveur dashboard sur **http://localhost:5000**
+2. Le navigateur web pointant vers le dashboard
+3. Les workers TCP
+4. Le tri distribué — **uniquement après** que le dashboard soit chargé dans le navigateur
+
+> **Important :** attendez que le terminal affiche `✓ Dashboard prêt — lancement du cluster` avant que le tri commence. Le script synchronise automatiquement le démarrage avec l'ouverture du navigateur.
+
+Une fois le tri terminé, le dashboard reste accessible. Appuyez sur **Ctrl+C** pour quitter.
 
 ---
 
@@ -112,22 +124,42 @@ python run_cluster.py
 
 ---
 
-# 5. Résultat attendu dans le terminal
+# 5. Dashboard web
+
+Le dashboard s'ouvre automatiquement dans le navigateur à l'adresse **http://localhost:5000**.
+
+Il affiche en temps réel :
+
+- **Statut du cluster** (IDLE / RUNNING / DONE)
+- **Pipeline d'exécution** — progression phase par phase (Partition → Échantillonnage → Repartitionnement → Tri → Fusion)
+- **État de chaque worker** — éléments triés, temps, RAM utilisée
+- **Distribution des partitions** — graphique en barres après l'échantillonnage
+- **Chronomètre live** et throughput final (éléments/seconde)
+- **Journal des événements** horodaté
+
+---
+
+# 6. Résultat attendu dans le terminal
 
 ```text
-10:42:01  INFO    Vérification des workers...
-10:42:01  INFO      ✓ Worker 0 (port 9000) OK
-10:42:01  INFO      ✓ Worker 1 (port 9001) OK
+10:42:01  INFO    Dashboard lancé : http://localhost:5000
+10:42:01  INFO    En attente que le dashboard soit chargé dans le browser...
+10:42:03  INFO    ✓ Dashboard prêt — lancement du cluster
+10:42:03  INFO    Démarrage worker 0 sur port 12000 (PID ...)
+...
+10:42:05  INFO    Vérification des workers...
+10:42:05  INFO      ✓ Worker 0 (port 12000) OK
+10:42:05  INFO      ✓ Worker 1 (port 12001) OK
 ...
 
-10:42:01  INFO    Pivots calculés en 0.041s :
+10:42:05  INFO    Pivots calculés en 0.041s :
                    [199823, 399711, 599450, 799203]
 
-10:42:01  INFO    Partitions après pivots :
+10:42:05  INFO    Partitions après pivots :
                    [200014, 199987, 199823, 200112, 200064]
 
-10:42:02  INFO      Worker 0: 200,014 éléments en 0.031s — 18,432 KB
-10:42:02  INFO      Worker 2: 199,823 éléments en 0.028s — 17,890 KB
+10:42:06  INFO      Worker 0: 200,014 éléments en 0.031s — 18,432 KB
+10:42:06  INFO      Worker 2: 199,823 éléments en 0.028s — 17,890 KB
 ...
 ```
 
