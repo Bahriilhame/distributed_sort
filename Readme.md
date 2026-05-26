@@ -141,43 +141,58 @@ Il affiche en temps réel :
 
 # 6. Résultat attendu dans le terminal
 
+Exemple réel avec **10 000 000 d'éléments** sur **5 workers** :
+
 ```text
-10:42:01  INFO    Dashboard lancé : http://localhost:5000
-10:42:01  INFO    En attente que le dashboard soit chargé dans le browser...
-10:42:03  INFO    ✓ Dashboard prêt — lancement du cluster
-10:42:03  INFO    Démarrage worker 0 sur port 12000 (PID ...)
-...
-10:42:05  INFO    Vérification des workers...
-10:42:05  INFO      ✓ Worker 0 (port 12000) OK
-10:42:05  INFO      ✓ Worker 1 (port 12001) OK
-...
-
-10:42:05  INFO    Pivots calculés en 0.041s :
-                   [199823, 399711, 599450, 799203]
-
-10:42:05  INFO    Partitions après pivots :
-                   [200014, 199987, 199823, 200112, 200064]
-
-10:42:06  INFO      Worker 0: 200,014 éléments en 0.031s — 18,432 KB
-10:42:06  INFO      Worker 2: 199,823 éléments en 0.028s — 17,890 KB
-...
+02:57:23  INFO    Dashboard lancé : http://localhost:5000
+02:57:23  INFO    En attente que le dashboard soit chargé dans le browser...
+02:57:23  INFO    ✓ Dashboard prêt — lancement du cluster
+02:57:23  INFO    Démarrage worker 0 sur port 12000 (PID 22268)
+02:57:24  INFO    Démarrage worker 1 sur port 12001 (PID 9924)
+02:57:24  INFO    Démarrage worker 2 sur port 12002 (PID 22048)
+02:57:24  INFO    Démarrage worker 3 sur port 12003 (PID 14312)
+02:57:24  INFO    Démarrage worker 4 sur port 12004 (PID 13880)
+02:57:26  INFO    Vérification des workers...
+02:57:26  INFO      ✓ Worker 0 (port 12000) OK
+02:57:26  INFO      ✓ Worker 1 (port 12001) OK
+02:57:26  INFO      ✓ Worker 2 (port 12002) OK
+02:57:26  INFO      ✓ Worker 3 (port 12003) OK
+02:57:26  INFO      ✓ Worker 4 (port 12004) OK
+02:57:26  INFO    Tri de 10,000,000 éléments sur 5 workers
+02:57:26  INFO    Chunks initiaux : [2000000, 2000000, 2000000, 2000000, 2000000]
+02:57:27  INFO    Pivots calculés en 0.918s : [1989636, 4002879, 6014582, 8024710]
+02:57:32  INFO    Partitions après pivots : [1988139, 2012805, 2014662, 2010210, 1974184]
+02:57:34  INFO      Worker 1: 2,012,805 éléments en 1.340s — 99,504 KB
+02:57:35  INFO      Worker 0: 1,988,139 éléments en 1.418s — 99,872 KB
+02:57:35  INFO      Worker 2: 2,014,662 éléments en 1.485s — 99,360 KB
+02:57:35  INFO      Worker 3: 2,010,210 éléments en 1.445s — 99,292 KB
+02:57:35  INFO      Worker 4: 1,974,184 éléments en 1.476s — 98,044 KB
+02:57:35  INFO    Phase tri terminée en 3.318s
+02:57:39  INFO    Fusion k-way en 3.458s
+02:57:39  INFO    ✓ Terminé — 10,000,000 éléments triés en 12.391s total
 ```
 
 ### Tableau récapitulatif
 
 ```text
-╭──────────────────────────────────────────────────╮
-│             Résultats du cluster                 │
-├────────┬────────────────┬──────────────┬─────────┤
-│ Worker │ Éléments triés │ Temps tri(s) │ RAM     │
-├────────┼────────────────┼──────────────┼─────────┤
-│   0    │    200,014     │    0.0312    │ 18,432  │
-│   1    │    199,987     │    0.0298    │ 17,901  │
-...
-╰──────────────────────────────────────────────────╯
+╭────────┬────────────────┬───────────────┬──────────────╮
+│ Worker │ Éléments triés │ Temps tri (s) │ RAM utilisée │
+├────────┼────────────────┼───────────────┼──────────────┤
+│   0    │      1,988,139 │        1.4184 │    99,872 KB │
+│   1    │      2,012,805 │        1.3403 │    99,504 KB │
+│   2    │      2,014,662 │        1.4854 │    99,360 KB │
+│   3    │      2,010,210 │        1.4451 │    99,292 KB │
+│   4    │      1,974,184 │        1.4757 │    98,044 KB │
+╰────────┴────────────────┴───────────────┴──────────────╯
 
-⏱ Temps total : 0.847s
-✓ Vérification OK — [12, 34, 45, ...] ... [9999940, 9999967]
+⏱ Temps total : 12.391s
+✓ Vérification OK — [3, 3, 5, 5, 6]...[9999994, 9999997, 9999997, 10000000, 10000000]
 ```
+
+---
+
+### Vue générale du cluster en cours d'exécution
+
+![Dashboard Done](screenshots/dashboard_done.png)
 
 ---
