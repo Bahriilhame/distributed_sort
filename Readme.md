@@ -93,38 +93,7 @@ Une fois le tri terminé, le dashboard reste accessible. Appuyez sur **Ctrl+C** 
 
 ---
 
-# 4. Tester différents modes
-
-## Données presque triées (cas difficile)
-
-```bash
-python generate_data.py nearly_sorted 500000
-python run_cluster.py
-```
-
-## Données triées à l'envers
-
-```bash
-python generate_data.py reverse 2000000
-python run_cluster.py
-```
-
-## Changer le nombre de workers
-
-```bash
-NUM_WORKERS=8 python run_cluster.py
-```
-
-## Changer la taille des données
-
-```bash
-DATA_SIZE=5000000 python generate_data.py
-python run_cluster.py
-```
-
----
-
-# 5. Dashboard web
+# 4. Dashboard web
 
 Le dashboard s'ouvre automatiquement dans le navigateur à l'adresse **http://localhost:5000**.
 
@@ -139,7 +108,7 @@ Il affiche en temps réel :
 
 ---
 
-# 6. Résultat attendu dans le terminal
+# 5. Résultat attendu dans le terminal
 
 Exemple réel avec **10 000 000 d'éléments** sur **5 workers** :
 
