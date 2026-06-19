@@ -90,6 +90,7 @@ class Coordinator:
             data[i * chunk_size: (i + 1) * chunk_size if i < NUM_WORKERS - 1 else len(data)]
             for i in range(NUM_WORKERS)
         ]
+        
         log.info(f"Chunks initiaux : {[len(c) for c in chunks]}")
         _notify(dash.notify_phase, "Partition initiale", time.perf_counter() - t0)
 
